@@ -1,27 +1,23 @@
 import {
   type IconType,
-  SiAstro,
-  SiBootstrap,
   SiCplusplus,
-  SiCss3,
   SiDocker,
   SiGit,
   SiGithub,
-  SiHtml5,
+  SiGooglegemini,
   SiJavascript,
   SiMongodb,
-  SiMysql,
   SiNextdotjs,
-  SiNginx,
   SiNodedotjs,
+  SiOpenai,
   SiPostgresql,
+  SiPrisma,
   SiReact,
-  SiRedis,
-  SiRubyonrails,
-  SiSass,
+  SiSupabase,
   SiTailwindcss,
   SiTypescript,
   SiVercel,
+  SiWebassembly,
 } from '@icons-pack/react-simple-icons'
 
 const SKILLS: { field: string; skills: { skill: string; icon: IconType }[] }[] =
@@ -29,49 +25,51 @@ const SKILLS: { field: string; skills: { skill: string; icon: IconType }[] }[] =
     {
       field: 'Languages',
       skills: [
-        { skill: 'c++', icon: SiCplusplus },
-        { skill: 'javascript', icon: SiJavascript },
-        { skill: 'typescript', icon: SiTypescript },
+        { skill: 'C++', icon: SiCplusplus },
+        { skill: 'JavaScript', icon: SiJavascript },
+        { skill: 'TypeScript', icon: SiTypescript },
+        { skill: 'SQL', icon: SiPostgresql },
       ],
     },
     {
       field: 'Frontend',
       skills: [
-        { skill: 'react', icon: SiReact },
-        { skill: 'nextjs', icon: SiNextdotjs },
-        { skill: 'tailwind', icon: SiTailwindcss },
-        { skill: 'html', icon: SiHtml5 },
-        { skill: 'css', icon: SiCss3 },
+        { skill: 'React.js', icon: SiReact },
+        { skill: 'Next.js', icon: SiNextdotjs },
+        { skill: 'Tailwind CSS', icon: SiTailwindcss },
       ],
     },
     {
       field: 'Backend',
       skills: [
-        {
-          skill: 'nodejs',
-          icon: SiNodedotjs,
-        },
-        {
-          skill: 'express',
-          icon: SiNodedotjs,
-        },
-        {
-          skill: 'postgresql',
-          icon: SiPostgresql,
-        },
-        {
-          skill: 'mongodb',
-          icon: SiMongodb,
-        },
+        { skill: 'Node.js', icon: SiNodedotjs },
+        { skill: 'Express.js', icon: SiNodedotjs },
+        { skill: 'Prisma', icon: SiPrisma },
+      ],
+    },
+    {
+      field: 'AI / Voice',
+      skills: [
+        { skill: 'OpenAI API', icon: SiOpenai },
+        { skill: 'Gemini API', icon: SiGooglegemini },
+        { skill: 'Vosk STT', icon: SiWebassembly },
+      ],
+    },
+    {
+      field: 'Databases',
+      skills: [
+        { skill: 'MongoDB', icon: SiMongodb },
+        { skill: 'PostgreSQL', icon: SiPostgresql },
+        { skill: 'Supabase', icon: SiSupabase },
       ],
     },
     {
       field: 'DevOps & Tools',
       skills: [
-        { skill: 'docker', icon: SiDocker },
-        { skill: 'github actions', icon: SiGithub },
-        { skill: 'git', icon: SiGit },
-        { skill: 'vercel', icon: SiVercel },
+        { skill: 'Git', icon: SiGit },
+        { skill: 'Docker', icon: SiDocker },
+        { skill: 'GitHub Actions', icon: SiGithub },
+        { skill: 'Vercel', icon: SiVercel },
       ],
     },
   ]
