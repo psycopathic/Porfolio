@@ -2,19 +2,37 @@
 
 import { Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
-
-import * as React from 'react'
+import { useEffect, useState } from 'react'
 
 export function ThemeSwitcher() {
-  const { setTheme, theme } = useTheme()
+  const { setTheme, resolvedTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return (
+      <button
+        className="border-border bg-secondary-background text-foreground shadow-shadow-sm rounded-base flex size-8 items-center justify-center border-2 sm:size-10"
+        aria-label="Toggle theme"
+      >
+        <span className="size-4 sm:size-5" />
+      </button>
+    )
+  }
+
+  const isDark = resolvedTheme === 'dark'
 
   return (
-    <>
-      <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
-        <Sun className="stroke-main-foreground hidden size-4 sm:size-6 dark:inline" />
-        <Moon className="stroke-main-foreground inline size-4 sm:size-6 dark:hidden" />
-        <span className="sr-only">Toggle theme</span>
-      </button>
-    </>
+    <button
+      className="border-border bg-secondary-background text-foreground shadow-shadow-sm rounded-base hover:translate-x-boxShadowX hover:translate-y-boxShadowY flex size-8 cursor-pointer items-center justify-center border-2 transition-all hover:shadow-none sm:size-10"
+      onClick={() => setTheme(isDark ? 'light' : 'dark')}
+      aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+    >
+      <Sun className="hidden size-4 sm:size-5 dark:block" />
+      <Moon className="block size-4 sm:size-5 dark:hidden" />
+    </button>
   )
 }
