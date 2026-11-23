@@ -3,7 +3,9 @@
 import { Link } from 'next-view-transitions'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
+import Rough from './rough'
 import { ThemeSwitcher } from './theme-switcher'
+import { SiteCommandPalette } from './site-command-palette'
 
 const links = [
   { path: '/', text: 'Home' },
@@ -16,24 +18,51 @@ export default function Nav() {
 
   return (
     <div className="fixed top-4 left-0 z-50 w-full px-4 sm:top-6">
-      <nav className="text-main-foreground border-border shadow-shadow rounded-base bg-main font-base mx-auto flex w-max max-w-full items-center gap-1 border-2 p-1.5 sm:gap-2 sm:p-2">
-        {links.map((link) => (
-          <Link
-            key={link.path}
-            className={cn(
-              'rounded-base border-2 px-3 py-1.5 text-sm font-medium transition-all sm:px-4 sm:text-base',
-              path === link.path
-                ? 'border-border bg-secondary-background text-foreground shadow-shadow-sm'
-                : 'border-transparent hover:border-border hover:bg-secondary-background/20',
-            )}
-            href={link.path}
-          >
-            {link.text}
-          </Link>
-        ))}
-        <div className="border-border ml-1 border-l pl-1 sm:ml-2 sm:pl-2">
-          <ThemeSwitcher />
-        </div>
+      <nav className="font-hand text-foreground relative isolate mx-auto flex w-max max-w-full items-center gap-1 px-3 py-2 sm:gap-3 sm:px-4">
+        <Rough
+          fill="var(--secondary-background)"
+          fillStyle="solid"
+          roughness={1.5}
+          seed={7}
+        />
+        {links.map((link) => {
+          const active = path === link.path
+          return (
+            <Link
+              key={link.path}
+              aria-current={active ? 'page' : undefined}
+              className={cn(
+                'group relative isolate px-3 py-1 text-xl transition-transform sm:px-4 sm:text-2xl',
+                active ? 'font-bold' : 'motion-safe:hover:-rotate-2',
+              )}
+              href={link.path}
+            >
+              {active ? (
+                <Rough
+                  shape="ellipse"
+                  stroke="var(--main)"
+                  strokeWidth={2.2}
+                  roughness={1.8}
+                  inset={-3}
+                />
+              ) : (
+                <Rough
+                  shape="underline"
+                  stroke="var(--main)"
+                  inset={8}
+                  wiggle
+                  className="opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                />
+              )}
+              {link.text}
+            </Link>
+          )
+        })}
+        <span className="relative isolate mx-1 h-8 w-2 sm:mx-2">
+          <Rough shape="vline" roughness={1} />
+        </span>
+        <SiteCommandPalette className="text-foreground relative isolate flex h-9 cursor-pointer items-center justify-center gap-2 px-2.5 font-sans transition-transform motion-safe:hover:-rotate-3 sm:h-10 sm:px-3" />
+        <ThemeSwitcher />
       </nav>
     </div>
   )
