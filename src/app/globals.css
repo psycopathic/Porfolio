@@ -13,6 +13,7 @@
   --ring: oklch(25% 0.02 80);
   --overlay: oklch(0% 0 0 / 0.8);
   --grid: oklch(80% 0.03 80 / 0.35);
+  --font-body: var(--font-montserrat);
 }
 
 .dark {
@@ -40,14 +41,22 @@
   --font-weight-base: 500;
   --font-weight-heading: 700;
   --font-hand: var(--font-caveat), 'Comic Sans MS', cursive;
-  --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
 
   /* RareUI tokens (src/components/rareui), derived from the portfolio theme so
      they follow light/dark automatically. */
   --color-canvas: var(--background);
   --color-surface: var(--secondary-background);
-  --color-field: color-mix(in oklch, var(--foreground) 6%, var(--secondary-background));
-  --color-hover: color-mix(in oklch, var(--foreground) 9%, var(--secondary-background));
+  --color-field: color-mix(
+    in oklch,
+    var(--foreground) 6%,
+    var(--secondary-background)
+  );
+  --color-hover: color-mix(
+    in oklch,
+    var(--foreground) 9%,
+    var(--secondary-background)
+  );
   --color-line: color-mix(in oklch, var(--foreground) 16%, transparent);
   --color-ink: var(--foreground);
   --color-ink-2: color-mix(in oklch, var(--foreground) 78%, transparent);
@@ -57,11 +66,11 @@
 
   --radius-window: 12px;
   --radius-control: 6px;
-  --shadow-hairline:
-    0 0 0 1px color-mix(in oklch, var(--foreground) 8%, transparent),
+  --shadow-hairline: 0 0 0 1px
+      color-mix(in oklch, var(--foreground) 8%, transparent),
     0 12px 32px -8px color-mix(in oklch, var(--foreground) 22%, transparent);
-  --shadow-btn:
-    0 0 0 1px color-mix(in oklch, var(--foreground) 12%, transparent),
+  --shadow-btn: 0 0 0 1px
+      color-mix(in oklch, var(--foreground) 12%, transparent),
     0 1px 2px color-mix(in oklch, var(--foreground) 10%, transparent);
 
   --animate-rare-fade-in: rare-fade-in 120ms ease-out;
@@ -119,9 +128,9 @@
 }
 
 body {
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   background-color: var(--background);
-  background-image:
-    linear-gradient(var(--grid) 1px, transparent 1px),
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid) 1px, transparent 1px);
   background-size: 28px 28px;
 }
@@ -184,4 +193,138 @@ body::-webkit-scrollbar-thumb {
 
 .delay-300 {
   animation-delay: 300ms;
+}
+
+/* ─── Accent toggle: <html data-accent="purple"> (RareUI violet) ─── */
+:root[data-accent='purple'] {
+  --main: #7c5cfc;
+  --main-foreground: #ffffff;
+}
+
+:root.dark[data-accent='purple'] {
+  --main: #8b7bf7;
+  --main-foreground: #ffffff;
+}
+
+/* ─── Style toggle: <html data-style="rare"> ───
+   Swaps the hand-drawn look for RareUI's clean one: neutral palette, Inter,
+   hairline boxes in place of rough.js sketches, no tilts or handwriting. */
+.rough-clean {
+  display: none;
+}
+
+:root[data-style='rare'] {
+  --background: #ffffff;
+  --secondary-background: #f9f9fb;
+  --foreground: #1a1a2e;
+  --border: #e4e4ea;
+  --ring: #1a1a2e;
+  --grid: oklch(0% 0 0 / 0.045);
+  --font-body: var(--font-inter);
+}
+
+:root.dark[data-style='rare'] {
+  --background: #0e0e12;
+  --secondary-background: #18181e;
+  --foreground: #e4e3eb;
+  --border: #2a2a36;
+  --ring: #e4e3eb;
+  --grid: oklch(100% 0 0 / 0.05);
+}
+
+[data-style='rare'] body {
+  background-image: radial-gradient(var(--grid) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+[data-style='rare'] .rough-svg {
+  display: none;
+}
+
+[data-style='rare'] .rough-clean {
+  display: block;
+  inset: var(--ri);
+  border: 1px solid var(--rs);
+  border-radius: 10px;
+  background: var(--rf);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    opacity 150ms;
+}
+
+[data-style='rare'] .rough-clean[data-solid] {
+  box-shadow: var(--shadow-btn);
+}
+
+[data-style='rare'] :is(:hover, :focus-visible) > .rough-clean[data-hover] {
+  background: var(--rh);
+}
+
+[data-style='rare'] .rough-clean[data-shape='ellipse'] {
+  border-radius: 9999px;
+}
+
+[data-style='rare']
+  .rough-clean:is(
+    [data-shape='underline'],
+    [data-shape='hline'],
+    [data-shape='vline']
+  ) {
+  border: 0;
+  border-radius: 9999px;
+  background: var(--rs);
+}
+
+[data-style='rare'] .rough-clean[data-shape='underline'] {
+  inset: auto var(--ri) 0;
+  height: var(--rw);
+}
+
+[data-style='rare'] .rough-clean[data-shape='hline'] {
+  inset: 50% 0 auto;
+  height: 1px;
+}
+
+[data-style='rare'] .rough-clean[data-shape='vline'] {
+  inset: 0 auto 0 50%;
+  width: 1px;
+}
+
+[data-style='rare'] .rough-clean[data-shape='highlight'] {
+  inset: 58% var(--ri) 6%;
+  border: 0;
+  border-radius: 4px;
+  background: color-mix(in oklch, var(--main) 28%, transparent);
+}
+
+[data-style='rare'] :is(h1, h2, h3, .font-hand) {
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.025em;
+}
+
+[data-style='rare'] h1 {
+  font-size: clamp(2.5rem, 6.5vw, 4.25rem);
+  font-weight: 700;
+}
+
+[data-style='rare'] h2 {
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  font-weight: 650;
+}
+
+[data-style='rare'] h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+[data-style='rare'] :not(h1, h2, h3).font-hand,
+[data-style='rare'] :not(h1, h2, h3).font-hand :is(a, span) {
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+[data-style='rare'] [class*='rotate'] {
+  rotate: none;
 }

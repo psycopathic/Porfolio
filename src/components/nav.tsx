@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils'
 import Rough from './rough'
 import { ThemeSwitcher } from './theme-switcher'
 import { SiteCommandPalette } from './site-command-palette'
+import { AppearanceMenu } from './appearance'
 
 const links = [
   { path: '/', text: 'Home' },
@@ -32,7 +33,7 @@ export default function Nav() {
               key={link.path}
               aria-current={active ? 'page' : undefined}
               className={cn(
-                'group relative isolate px-3 py-1 text-xl transition-transform sm:px-4 sm:text-2xl',
+                'group relative isolate px-2 py-1 text-xl transition-transform sm:px-4 sm:text-2xl',
                 active ? 'font-bold' : 'motion-safe:hover:-rotate-2',
               )}
               href={link.path}
@@ -58,10 +59,11 @@ export default function Nav() {
             </Link>
           )
         })}
-        <span className="relative isolate mx-1 h-8 w-2 sm:mx-2">
+        <span className="relative isolate mx-0.5 h-8 w-2 sm:mx-2">
           <Rough shape="vline" roughness={1} />
         </span>
         <SiteCommandPalette className="text-foreground relative isolate flex h-9 cursor-pointer items-center justify-center gap-2 px-2.5 font-sans transition-transform motion-safe:hover:-rotate-3 sm:h-10 sm:px-3" />
+        <AppearanceMenu className="text-foreground flex size-9 cursor-pointer items-center justify-center transition-transform motion-safe:hover:rotate-12 sm:size-10" />
         <ThemeSwitcher />
       </nav>
     </div>
