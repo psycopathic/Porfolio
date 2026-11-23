@@ -1,12 +1,37 @@
 import PROJECTS from '@/data/projects'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
 import { ExternalLink, Github } from 'lucide-react'
+import Rough from '@/components/rough'
+import { sketchButton } from '@/lib/sketch'
+import { slugify } from '@/lib/utils'
+import { EdgeStepper } from '@/components/rareui/edge-stepper'
 
 export default function Work() {
   return (
     <div>
-      <div className="mb-10">
-        <h1 className="font-heading text-3xl sm:text-4xl">Work</h1>
+      <EdgeStepper
+        items={[
+          { id: 'work', label: 'Work', depth: 0 },
+          ...PROJECTS.map((p) => ({
+            id: slugify(p.name),
+            label: p.name,
+            depth: 1,
+          })),
+        ]}
+      />
+      <div id="work" className="mb-10 scroll-mt-32">
+        <h1 className="font-heading text-5xl sm:text-6xl">
+          <span className="relative isolate inline-block px-1">
+            <Rough
+              shape="underline"
+              stroke="var(--main)"
+              strokeWidth={3}
+              bowing={4}
+              inset={-4}
+            />
+            Work
+          </span>
+        </h1>
         <p className="mt-3 text-base opacity-80 sm:text-lg">
           A selection of projects I&apos;ve built, from real-time chat apps to
           voice-controlled experiences.
@@ -17,22 +42,29 @@ export default function Work() {
         {PROJECTS.map((project) => {
           return (
             <article
-              className="border-border shadow-shadow hover:translate-x-boxShadowX hover:translate-y-boxShadowY rounded-base bg-secondary-background group overflow-hidden border-2 transition-all hover:shadow-none"
+              className="group relative isolate scroll-mt-32 p-3 sm:p-4"
+              id={slugify(project.name)}
               key={project.name}
             >
-              <AspectRatio
-                className="border-border border-b-2"
-                ratio={16 / 9}
-              >
-                <img
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  src={project.previewImage}
-                  alt={project.name}
-                />
-              </AspectRatio>
+              <Rough
+                fill="var(--secondary-background)"
+                fillStyle="solid"
+                roughness={1.6}
+                strokeWidth={2}
+              />
+              <div className="relative isolate p-1.5">
+                <Rough roughness={1.2} inset={0} />
+                <AspectRatio className="overflow-hidden" ratio={16 / 9}>
+                  <img
+                    className="h-full w-full object-cover transition-transform duration-500 motion-safe:group-hover:scale-105"
+                    src={project.previewImage}
+                    alt={project.name}
+                  />
+                </AspectRatio>
+              </div>
 
-              <div className="p-5 sm:p-6">
-                <h2 className="font-heading text-xl sm:text-2xl">
+              <div className="p-2 pt-5 sm:p-3 sm:pt-6">
+                <h2 className="font-heading text-3xl sm:text-4xl">
                   {project.name}
                 </h2>
 
@@ -44,8 +76,17 @@ export default function Work() {
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="bg-main text-main-foreground rounded-base px-2.5 py-1 text-xs font-medium sm:text-sm"
+                      className="relative isolate px-3 py-1 text-xs font-medium sm:text-sm"
                     >
+                      <Rough
+                        fill="var(--main)"
+                        fillStyle="cross-hatch"
+                        hachureGap={5}
+                        fillWeight={0.8}
+                        roughness={0.8}
+                        strokeWidth={1.2}
+                        inset={1}
+                      />
                       {tag}
                     </span>
                   ))}
@@ -53,20 +94,22 @@ export default function Work() {
 
                 <div className="mt-8 grid grid-cols-2 gap-4">
                   <a
-                    className="border-border bg-background text-foreground shadow-shadow hover:translate-x-boxShadowX hover:translate-y-boxShadowY rounded-base font-base flex items-center justify-center gap-2 border-2 px-4 py-2.5 text-center text-sm font-medium transition-all hover:shadow-none sm:text-base"
+                    className={`${sketchButton} px-4`}
                     href={project.liveLink}
                     target="_blank"
                     rel="noreferrer"
                   >
+                    <Rough hoverFill="var(--main)" wiggle />
                     <ExternalLink className="size-4" />
                     Visit
                   </a>
                   <a
-                    className="border-border bg-background text-foreground shadow-shadow hover:translate-x-boxShadowX hover:translate-y-boxShadowY rounded-base font-base flex items-center justify-center gap-2 border-2 px-4 py-2.5 text-center text-sm font-medium transition-all hover:shadow-none sm:text-base"
+                    className={`${sketchButton} px-4`}
                     href={project.repoUrl}
                     target="_blank"
                     rel="noreferrer"
                   >
+                    <Rough hoverFill="var(--main)" wiggle />
                     <Github className="size-4" />
                     GitHub
                   </a>

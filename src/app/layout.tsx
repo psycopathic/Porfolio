@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Montserrat } from 'next/font/google'
+import { Caveat, Montserrat } from 'next/font/google'
 import './globals.css'
 import Nav from '@/components/nav'
 import Footer from '@/components/footer'
@@ -10,6 +10,12 @@ const montserrat = Montserrat({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-montserrat',
+})
+
+const caveat = Caveat({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-caveat',
 })
 
 export const metadata: Metadata = {
@@ -31,7 +37,7 @@ export default function RootLayout({
       <html
         suppressHydrationWarning
         lang="en"
-        className={`${montserrat.variable} scroll-smooth antialiased`}
+        className={`${montserrat.variable} ${caveat.variable} scroll-smooth antialiased`}
       >
         <body className={montserrat.className}>
           <ThemeProvider attribute="class" disableTransitionOnChange>
