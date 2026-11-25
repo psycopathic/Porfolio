@@ -11,12 +11,15 @@ import {
   FolderGit2,
   House,
   Moon,
+  Palette,
+  PenTool,
   User,
 } from 'lucide-react'
 import { CommandPalette, type CommandItem } from './rareui/command-palette'
 import PROJECTS from '@/data/projects'
 import SOCIALS, { EMAIL } from '@/data/socials'
 import { slugify } from '@/lib/utils'
+import { useAppearance } from './appearance'
 
 function openExternal(href: string) {
   if (href.startsWith('mailto:')) window.location.href = href
@@ -26,6 +29,7 @@ function openExternal(href: string) {
 export function SiteCommandPalette({ className }: { className?: string }) {
   const router = useRouter()
   const { resolvedTheme, setTheme } = useTheme()
+  const { style, accent, setStyle, setAccent } = useAppearance()
 
   const commands = useMemo<CommandItem[]>(
     () => [
@@ -102,8 +106,24 @@ export function SiteCommandPalette({ className }: { className?: string }) {
         icon: <Moon />,
         action: () => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark'),
       },
+      {
+        id: 'style',
+        group: 'Preferences',
+        label:
+          style === 'rare' ? 'Switch to Sketch style' : 'Switch to Rare style',
+        description: style === 'rare' ? 'Hand-drawn look' : 'Clean RareUI look',
+        icon: <PenTool />,
+        action: () => setStyle(style === 'rare' ? 'sketch' : 'rare'),
+      },
+      {
+        id: 'accent',
+        group: 'Preferences',
+        label: accent === 'purple' ? 'Use orange accent' : 'Use purple accent',
+        icon: <Palette />,
+        action: () => setAccent(accent === 'purple' ? 'orange' : 'purple'),
+      },
     ],
-    [router, resolvedTheme, setTheme],
+    [router, resolvedTheme, setTheme, style, accent, setStyle, setAccent],
   )
 
   return <CommandPalette commands={commands} className={className} />

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useId, useRef } from 'react'
+import { useEffect, useId, useRef, type CSSProperties } from 'react'
 import rough from 'roughjs'
 import type { Options } from 'roughjs/bin/core'
 import { cn } from '@/lib/utils'
@@ -38,7 +38,7 @@ export interface RoughProps {
 function hashSeed(s: string) {
   let h = 0
   for (const c of s) h = (h * 31 + c.charCodeAt(0)) | 0
-  return (Math.abs(h) % 2 ** 31) || 1
+  return Math.abs(h) % 2 ** 31 || 1
 }
 
 /**
@@ -183,14 +183,52 @@ export default function Rough({
     wiggle,
   ])
 
+  // Clean twin for the "Rare" style: a plain CSS box/line with the same
+  // shape, shown instead of the sketch when <html data-style="rare">.
+  const tint = (c?: string) =>
+    !c
+      ? 'transparent'
+      : fillStyle === 'solid'
+        ? c
+        : `color-mix(in oklch, ${c} 22%, transparent)`
+  const customStroke = stroke !== 'var(--border)' && stroke !== 'none'
+  const cleanStyle = {
+    '--ri': `${inset}px`,
+    '--rs':
+      stroke === 'none'
+        ? 'transparent'
+        : customStroke
+          ? stroke
+          : 'var(--color-line)',
+    '--rw': `${Math.max(1, Math.round(strokeWidth))}px`,
+    '--rf':
+      fill || !customStroke
+        ? tint(fill)
+        : `color-mix(in oklch, ${stroke} 14%, transparent)`,
+    '--rh': hoverFill ? tint(hoverFill) : undefined,
+  } as CSSProperties
+
   return (
-    <svg
-      ref={svgRef}
-      aria-hidden="true"
-      className={cn(
-        'pointer-events-none absolute inset-0 -z-10 size-full overflow-visible',
-        className,
-      )}
-    />
+    <>
+      <svg
+        ref={svgRef}
+        aria-hidden="true"
+        className={cn(
+          'rough-svg pointer-events-none absolute inset-0 -z-10 size-full overflow-visible',
+          className,
+        )}
+      />
+      <span
+        aria-hidden="true"
+        data-shape={shape}
+        data-hover={hoverFill ? '' : undefined}
+        data-solid={fill && fillStyle === 'solid' ? '' : undefined}
+        style={cleanStyle}
+        className={cn(
+          'rough-clean pointer-events-none absolute -z-10',
+          className,
+        )}
+      />
+    </>
   )
 }

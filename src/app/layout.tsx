@@ -1,15 +1,22 @@
 import type { Metadata } from 'next'
-import { Caveat, Montserrat } from 'next/font/google'
+import { Caveat, Inter, Montserrat } from 'next/font/google'
 import './globals.css'
 import Nav from '@/components/nav'
 import Footer from '@/components/footer'
 import { ViewTransitions } from 'next-view-transitions'
 import { ThemeProvider } from '@/components/theme-provider'
+import { appearanceScript, DEFAULTS } from '@/lib/appearance'
 
 const montserrat = Montserrat({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-montserrat',
+})
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
 })
 
 const caveat = Caveat({
@@ -37,9 +44,14 @@ export default function RootLayout({
       <html
         suppressHydrationWarning
         lang="en"
-        className={`${montserrat.variable} ${caveat.variable} scroll-smooth antialiased`}
+        data-style={DEFAULTS.style}
+        data-accent={DEFAULTS.accent}
+        className={`${montserrat.variable} ${caveat.variable} ${inter.variable} scroll-smooth antialiased`}
       >
-        <body className={montserrat.className}>
+        <head>
+          <script dangerouslySetInnerHTML={{ __html: appearanceScript }} />
+        </head>
+        <body className="font-base">
           <ThemeProvider attribute="class" disableTransitionOnChange>
             <div className="flex min-h-screen flex-col">
               <Nav />
